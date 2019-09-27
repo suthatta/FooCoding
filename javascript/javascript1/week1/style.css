@@ -1,0 +1,35 @@
+body {
+  background-color:rgb(220,220,220);
+  color:black;
+}
+#root {
+  display: flex;
+  grid-template-columns: 300px 200px;
+  gap:10px;
+}
+
+ul {
+  list-style-type: none;
+  font-size: 20px;
+  font-weight: normal;
+}
+#list ul li {
+  list-style-type: none;
+  font-size: 10px;
+  /*font-style: italic;*/
+  color: #0000CD;
+}
+#divLeft {
+  background-color: gray;
+}
+#contributors { 
+/*  display: none;*/
+ background-color: whitesmoke;
+}
+
+​ #contributors.active {
+  display: block;
+  color: red;
+}
+
+
