@@ -31,5 +31,8 @@ ul {
   display: block;
   color: red;
 }
-
+#contributorsItem {
+  display: flex;
+  
+}
 
