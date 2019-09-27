@@ -1,19 +1,20 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -67,55 +68,43 @@
 
   // Contributors
   function createContributors(element) {
-    fetchJSON(element.contributors_url, (err, data) => {
-      const root = document.getElementById('container');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-
-        const container = document.getElementById('container');
-
-        const divRight = createAndAppend('div', container, {
-          id: 'rightSide', class: 'right-div whiteframe'
+    fetchJSON(element.contributors_url).then(data => {
+      const container = document.getElementById('container');
+      const divRight = createAndAppend('div', container, {
+        id: 'rightSide', class: 'right-div whiteframe'
+      });
+      const divContributor = createAndAppend('div', divRight, {
+        id: 'contributors', class: 'right', text: 'Contributors', style: 'font-weight:bold'
+      });
+      const ul = createAndAppend('ul', divRight, { class: 'contributorsList' });
+      for (let i in data) {
+        let li = createAndAppend('li', ul, { class: 'contributorItem' });
+        let img = createAndAppend('img', li, {
+          src: data[i].avatar_url, class: 'contributorsAvatar', height: 48,
         });
-
-        const divContributor = createAndAppend('div', divRight, {
-          id: 'contributors', class: 'right', text: 'Contributors', style: 'font-weight:bold'
+        let login = createAndAppend('a', li, {
+          text: data[i].login,
+          href: data[i].html_url,
+          target: '_blank',
+          class: 'contributorName',
         });
-
-        const ul = createAndAppend('ul', divRight, { class: 'contributorsList' });
-
-
-        for (let i in data) {
-          let li = createAndAppend('li', ul, { class: 'contributorItem' });
-          let img = createAndAppend('img', li, {
-            src: data[i].avatar_url,
-            class: 'contributorsAvatar',
-            height: 48,
-          });
-          let login = createAndAppend('a', li, {
-            text: data[i].login,
-            href: data[i].html_url,
-            target: '_blank',
-            class: 'contributorName',
-          });
-          let badge = createAndAppend('div', li, {
-            text: data[i].contributions,
-            class: 'contributorBadge',
-          });
-        }
+        let badge = createAndAppend('div', li, {
+          text: data[i].contributions,
+          class: 'contributorBadge',
+        });
       }
     })
   }
 
 
+
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        //create Header (Top)
+    const root = document.getElementById('root');
+    fetchJSON(url)
+      .catch(reject => {
+        createAndAppend('div', root, { text: reject.message, class: 'alert-error' });
+      })
+      .then(data => { //create Header (Top)
         createAndAppend('header', root, { id: 'top', class: 'header' });
         const header = document.getElementById('top');
         createAndAppend('p', header, { id: 'title', text: 'HYF Repositories' });
@@ -123,19 +112,15 @@
         createAndAppend('div', root, { id: 'container' });
         // sort text upper lower case
         data.sort((a, b) => a.name.localeCompare(b.name));
-
         function selectOption(options) {
           const repoSelect = document.getElementById('repoSelect');
           for (let i = 0; i < options.length; i++) {
             createAndAppend('option', repoSelect, { value: i, text: options[i].name });
           }
-        }
-        //call selectOption function
+        }  //call selectOption function
         selectOption(data);
-
         createRepository(data[0]);
         createContributors(data[0]);
-
         // when you click the option -onchange
         document.getElementById('repoSelect').onchange = function () {
           let selectItems = this.options[this.selectedIndex].value;
@@ -147,8 +132,7 @@
           createRepository(data[selectItems]);
           createContributors(data[selectItems]);
         };
-      }
-    });
+      })
   }
 
 
