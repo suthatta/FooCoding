@@ -1,0 +1,20 @@
+   Hi everybody, after discussing it with Marco we thought it could be a good exercise for you to work a bit on repetion of concepts that we have been talking about in the previous sessions.
+
+Step 1:
+Read the following topics (and subtopics)
+
+    https://learnjs.today/contents/codepen/js/
+    https://learnjs.today/contents/codepen/events/on-click/
+    https://learnjs.today/contents/codepen/dom/append-child/
+
+
+Step 2:
+After reading all the previous materials on learnjs.today try to re-do the last lecture exercise from the beggining.
+The idea is for you to get inspired by some of the strategies on the examples (on learnjs) to create and abstract the functions you need to accomplish the exercise from the previous lecture.
+
+Step 3:
+For extra points and if you feel adventurous you can try to implement the logic for a Single Page Application we learned 2 weeks ago. This is totally optional, focus on the previous steps.
+
+Step 4:
+If you need help ask us and ask each other! Sharing and discussing your dounts with each other will help you more than you imagine.
+Good luck!

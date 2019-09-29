@@ -3,8 +3,10 @@
 const main = async url => {
   const response = await fetch(url);
   const repoList = await response.json();
+  repoList.sort((a, b) => a.name.localeCompare(b.name));
   createHTML();
   repoList.forEach(createRepoList);
+
 }
 
 const createHTML = () => {
@@ -21,6 +23,13 @@ const createRepoList = repo => {
   const ul = document.getElementById('list');
   const li = createAndAppend('li', ul, { id: 'list', text: 'Name:' });
   const span = createAndAppend('span', li, { id: 'list', text: repo.name, });
+
+
+  //myDiv.addEventListener("mouseout", mouseOut, false); */
+  //use evenlistener
+  span.onmouseover = mouseOver;
+
+  //console.log(span.onmouseover);
   span.addEventListener('click', showRepoDetails(repo));
 
 }
@@ -31,8 +40,47 @@ const showRepoDetails = repo => event => {
   document.querySelector('#contributors').classList.add('active');
   createContributor(repo);
 }
+//mouse over 
+function mouseOver(event) {
+  console.log(event);
+  if (event.target) {
+    event.target.addEventListener('mouseout', mouseOut);
+    //Advance remove event listener for mouse over
+    event.target.style.color = 'red';
+  }
+
+  //  document.getElementsByTagName('span').style.color = 'red';
+}
+
+function mouseOut(event) {
+  console.log('hej out');
+  event.target.style.color = 'black';
+  //Adavance: remove add lister mouse out
+  // add event lister for mouse over
+
+}
 
 
+/*const divDescription = createAndAppend('div', divLeft, {
+     class: 'left', text: 'Description:', style: 'font-weight:bold'
+   });
+   const divDescriptText = createAndAppend('div', divLeft, {
+     class: 'left', text: element.description
+   });
+   const divForks = createAndAppend('div', divLeft, {
+     class: 'left', text: 'Forks:', style: 'font-weight:bold'
+   });
+   const divForksCount = createAndAppend('div', divLeft, {
+     class: 'left', text: element.forks
+   });
+   const newDate = new Date(element.updated_at).toLocaleString();
+   const divDate = createAndAppend('div', divLeft, {
+     class: 'left', text: 'Updated:', style: 'font-weight:bold'
+   });
+   const divDateShow = createAndAppend('div', divLeft, {
+     class: 'left', text: newDate
+   });
+*/
 const createAndAppend = ((name, parent, options = {}) => {
   const element = document.createElement(name);
   parent.appendChild(element);
