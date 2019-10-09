@@ -8,7 +8,7 @@ create table country
 (
   Country_Code varchar(3) NOT NULL DEFAULT '',
   Country_Name varchar(30) NOT NULL DEFAULT '',
-  Country_Continent ENUM('Asia','Africa','Antarctica','Australia', 'Europe','North America','South America') NOT NULL DEFAULT 'Europe',
+  Country_Continent ENUM('Asia','Europe','NorthAmerica','SouthAmerica') NOT NULL DEFAULT 'Europe',
   Country_Region varchar
 (25) NOT NULL DEFAULT '',
   Country_Population int
@@ -37,36 +37,36 @@ create table city
 
   /*insert into country (Country_Code,Country_Name,Continent,Region,Capital, Population)  Values*/
   insert into country
-  value('ABW','Aruba','North America','Caribbean',
+  value('SIP','Singapo','Asia','Caribbean',
   0
   );
   insert into country
   value
-  ('ANT',
-  'Netherlands Antilles',
-  'North America',
+  ('NDL',
+  'Netherlands',
+  'Europe',
   'Caribbean',
   0
   );
   insert into country
   value
-  ('ARE',
-  'United Arab Emirates',
+  ('IND',
+  'India',
   'Asia',
   'Middle East',
   0
   );
   insert into country
-  value('ARG',
+  value('AGT',
   'Argentina',
-  'South America',
-  'South America',
+  'SouthAmerica',
+  'SouthAmerica',
   3
   );
   insert into country
-  value('ARM',
-  'Armenia',
-  'Asia',
+  value('TKY',
+  'Turkey',
+  'Europe',
   'Middle East',
   0
   );
@@ -74,71 +74,71 @@ create table city
   value
   ('USA',
   'United States',
-  'North America',
-  'North America',
+  'NorthAmerica',
+  'NorthAmerica',
   8
   );
   insert into country
   value('THA',
   'Thailand',
   'Asia',
-  'Southeast Asia',
+  'Asia',
   0
   );
   insert into country
   value('SWE',
   'Sweden',
   'Europe',
-  'Nordic Countries',
+  'NordicCountries',
   0
   );
   insert into country
   value('DNK',
   'Denmark',
   'Europe',
-  'Nordic Countries',
+  'NordicCountries',
   0
   );
   insert into country
   value('PHL',
   'Philippines',
   'Asia',
-  'Southeast Asia',
+  'SoutheastAsia',
   2
   );
   insert into country
-  value('IND',
-  'India',
+  value('LOS',
+  'Los',
   'Asia',
-  'Southern and Central Asia',
+  'SouthernAsia',
   0
   );
   insert into country
-  value('ESP',
+  value('SPN',
   'Spain',
   'Europe',
   'Southern Europe',
   0
   );
   insert into country
-  value('TUR',
-  'Turkey',
-  'Asia',
-  'Middle East',
+  value('CND',
+  'Cannada',
+  'SouthAmerica',
+  'MiddleEast',
   0
   );
   insert into country
   value('CHN',
   'China',
   'Asia',
-  'Eastern Asia',
+  'EasternAsia',
   8
   );
   insert into country
   value('PER',
   'Peru',
-  'South America',
-  'South America',
+  'SouthAmerica',
+  'SouthAmerica',
   0
   );
 
@@ -156,70 +156,35 @@ create table city
   insert into city
   value
   (2,
-  'Nonthaburi',
-  'THA',
+  'Azabajan',
+  'IND',
   100
   );
   insert into city
   value
   (3,
-  'Nakhon Ratchasima',
-  'THA',
+  'AroiDee',
+  'CND',
   400
   );
   insert into city
   value(4,
-  'Chiang Mai',
-  'THA',
+  'ChiangMai',
+  'AGT',
   100
   );
   insert into city
   value(5,
-  'Udon Thani',
+  'Udon',
   'THA',
   158
   );
-  insert into city
-  value(6,
-  'Hat Yai',
-  'THA',
-  632
-  );
-  insert into city
-  value(7,
-  'Khon Kaen',
-  'THA',
-  500
-  );
-  insert into city
-  value(8,
-  'Pak Kret',
-  'THA',
-  126
-  );
+
   insert into city
   value(9,
-  'Nakhon Sawan',
-  'THA',
+  'WhiteHarbor',
+  'NDL',
   800
-  );
-  insert into city
-  value(10,
-  'Ubon Ratchathani',
-  'THA',
-  100
-  );
-  insert into city
-  value(11,
-  'Songkhla',
-  'THA',
-  900
-  );
-  insert into city
-  value(12,
-  'Nakhon Pathom',
-  'THA',
-  100
   );
   insert into city
   value(13,
@@ -229,7 +194,7 @@ create table city
   );
   insert into city
   value(14,
-  'Gothenburg',
+  'Mantarys',
   'SWE',
   90
   );
@@ -241,74 +206,53 @@ create table city
   );
   insert into city
   value(16,
-  'Uppsala',
-  'SWE',
+  'KingInTheNorr',
+  'NDL',
   569
   );
   insert into city
   value(17,
-  'Linkoping',
-  'SWE',
+  'Landstring',
+  'CHN',
   68
   );
   insert into city
   value(18,
   'Vasterland',
-  'SWE',
+  'CHN',
   28
   );
   insert into city
   value(19,
-  'O–rebro',
-  'SWE',
+  'ChingChing',
+  'PER',
   124
   );
   insert into city
   value(20,
-  'Norrkoping',
-  'SWE',
+  'PingPong',
+  'PER',
   99
   );
   insert into city
   value(21,
-  'Helsingborg',
-  'SWE',37
+  'Vinterfall',
+  'SPN',37
   );
   insert into city
   value(22,
-  'Jonkoping',
-  'SWE',
+  'KingsLanding',
+  'PER',
   95
   );
   insert into city
   value(23,
-  'UmeAy',
-  'SWE',
+  'CasterlyRock',
+  'USA',
   12
-  );
-  insert into city
-  value(24,
-  'Lund',
-  'SWE',
-  48
-  );
-  insert into city
-  value(25,
-  'Borals',
-  'SWE',88
-  );
-  insert into city
-  value(26,
-  'Sundsvall',
-  'SWE',
-  26
-  );
-  insert into city
-  value(27,
-  'Gavle',
-  'SWE',
-  42
   );
 
   select count(*) as TotalCities
   from city;
+  
+  select country.Country_Name, city.Country_Code, city.City_Name from country, city where country.Country_Code= city. Country_Code;
