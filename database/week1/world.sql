@@ -263,8 +263,5 @@ show tables;
   from country, city
   where country.Country_Code= city. Country_Code
   order by Country_Code;
-  =======
 
-  select count(*) as TotalCities
-  from city;
-  >>>>>>> afdb31e119e45c2a4bdc014a99dcf6ea0f3e8b42
+ 
