@@ -1,200 +1,76 @@
-create database world;
+drop database if exists world;
+create database if not exists world;
 use world;
 show tables;
-drop table country;
-drop table city;
-
+drop table if exists country;
 create table country
 (
   Country_Code varchar(3) NOT NULL DEFAULT '',
   Country_Name varchar(30) NOT NULL DEFAULT '',
   Country_Continent ENUM('Asia','Africa','Antarctica','Australia', 'Europe','North America','South America') NOT NULL DEFAULT 'Europe',
-  Country_Region varchar
-(25) NOT NULL DEFAULT '',
-  Country_Capital int
-(11) NOT NULL DEFAULT 0,
-Country_Population int
-(11) NOT NULL default 0,
-  primary key
-(Country_Code)
+  Country_Region varchar(25) NOT NULL DEFAULT '',
+  Country_Population int(11) NOT NULL default 0,
+  primary key (Country_Code)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
+drop table if exists city;
 create table city
 (
-  City_code int(11) NOT NULL
-  AUTO_INCREMENT,
-  City_Name varchar
-  (35) NOT NULL DEFAULT '', 
-  Country_Code varchar
-  (3) NOT NULL DEFAULT '',
-  City_Population int
-  (11) NOT NULL DEFAULT 0,
-  primary key
-  (City_code),
+  City_code int(11) NOT NULL  AUTO_INCREMENT,
+  City_Name varchar(35) NOT NULL DEFAULT '', 
+  Country_Code varchar(3) NOT NULL DEFAULT '',
+  City_Population int(11) NOT NULL DEFAULT 0,
+  primary key (City_code),
   foreign key
-  (Country_Code) REFERENCES country
-  (Country_Code)
+  (Country_Code) REFERENCES country (Country_Code)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
   /*insert into country (Country_Code,Country_Name,Continent,Region,Capital, Population)  Values*/
-  insert into country
-  value
-  ('ABW',
-  'Aruba',
-  'North America',
-  'Caribbean',
-  0,
-  0
-  );
-  insert into country
-  value
-  ('ANT',
-  'Netherlands Antilles',
-  'North America',
-  'Caribbean',
-  0,
-  0
-  );
-  insert into country
-  value
-  ('ARE',
-  'United Arab Emirates',
-  'Asia',
-  'Middle East',
-  2,
-  0
-  );
-  insert into country
-  value('ARG',
-  'Argentina',
-  'South America',
-  'South America',
-  60,
-  3
-  );
-  insert into country
-  value('ARM',
-  'Armenia',
-  'Asia',
-  'Middle East',
-  80,
-  0
-  );
-  insert into country
-  value
-  ('USA',
-  'United States',
-  'North America',
-  'North America',
-  5,
-  8
-  );
-  insert into country
-  value('THA',
-  'Thailand',
-  'Asia',
-  'Southeast Asia',
-  9,
-  0
-  );
-  insert into country
-  value('SWE',
-  'Sweden',
-  'Europe',
-  'Nordic Countries',
-  8,
-  0
-  );
-  insert into country
-  value('DNK',
-  'Denmark',
-  'Europe',
-  'Nordic Countries',
-  2,
-  0
-  );
-  insert into country
-  value('PHL',
-  'Philippines',
-  'Asia',
-  'Southeast Asia',
-  3,
-  2
-  );
-  insert into country
-  value('IND',
-  'India',
-  'Asia',
-  'Southern and Central Asia',
-  5,
-  0
-  );
-  insert into country
-  value('ESP',
-  'Spain',
-  'Europe',
-  'Southern Europe',
-  5,
-  0
-  );
-  insert into country
-  value('TUR',
-  'Turkey',
-  'Asia',
-  'Middle East',
-  0,
-  0
-  );
-  insert into country
-  value('CHN',
-  'China',
-  'Asia',
-  'Eastern Asia',
-  0,
-  8
-  );
-  insert into country
-  value('PER',
-  'Peru',
-  'South America',
-  'South America',
-  0,
-  0
-  );
+  insert into country   value('ABW','Aruba','North America','Caribbean',  0 );
+  insert into country  value  ('ANT',  'Netherlands Antilles',  'North America',  'Caribbean', 0  );
+  insert into country   value  ('ARE',  'United Arab Emirates',  'Asia',  'Middle East',  0  );
+  insert into country  value('ARG',  'Argentina',  'South America',  'South America',   3  );
+  insert into country  value('ARM',  'Armenia',  'Asia',  'Middle East',   0  );
+  insert into country  value  ('USA',  'United States',  'North America',  'North America',    8  );
+  insert into country   value('THA',  'Thailand',  'Asia',  'Southeast Asia',   0  );
+  insert into country  value('SWE',  'Sweden',  'Europe',  'Nordic Countries',  0  );
+  insert into country  value('DNK',  'Denmark',  'Europe',  'Nordic Countries',   0  );
+  insert into country  value('PHL',  'Philippines',  'Asia',  'Southeast Asia',  2  );
+  insert into country  value('IND',  'India',  'Asia',  'Southern and Central Asia',  0  );
+  insert into country  value('ESP',  'Spain',  'Europe',  'Southern Europe',   0  );
+  insert into country  value('TUR',  'Turkey',  'Asia',  'Middle East', 0  );
+  insert into country  value('CHN',  'China',  'Asia',  'Eastern Asia', 8  );
+  insert into country  value('PER',  'Peru',  'South America',  'South America',  0  );
 
+select count(*) as TotalCountries from country;
 
-  insert into city
-  value
-  (1,
-  'Bangkok',
-  'THA',
-  6320174
-  );
-  /*(City_code,City_Name,Country_Code,City_Population)*/
-  (2, 'Nonthaburi', 'THA', 292100),
-  (3, 'Nakhon Ratchasima', 'THA', 181400),
-  (4, 'Chiang Mai', 'THA', 171100),
-  (5, 'Udon Thani', 'THA', 158100),
-  (6, 'Hat Yai', 'THA', 148632),
-  (7, 'Khon Kaen', 'THA', 126500),
-  (8, 'Pak Kret', 'THA', 126055),
-  (9, 'Nakhon Sawan', 'THA', 123800),
-  (10, 'Ubon Ratchathani', 'THA', 116300),
-  (11, 'Songkhla', 'THA', 94900),
-  (12, 'Nakhon Pathom', 'THA', 94100),
-  (13, 'Stockholm', 'SWE', 750348),
-  (14, 'Gothenburg [GÃ¶teborg]', 'SWE', 466990),
-  (15, 'MalmÃ¶', 'SWE', 259579),
-  (16, 'Uppsala', 'SWE', 189569),
-  (17, 'LinkÃ¶ping', 'SWE', 133168),
-  (18, 'VÃ¤sterÃ¥s', 'SWE', 126328),
-  (19, 'Ã–rebro', 'SWE', 124207),
-  (20, 'NorrkÃ¶ping', 'SWE', 122199),
-  (21, 'Helsingborg', 'SWE', 117737),
-  (22, 'JÃ¶nkÃ¶ping', 'SWE', 117095),
-  (23, 'UmeÃ¥', 'SWE', 104512),
-  (24, 'Lund', 'SWE', 98948),
-  (25, 'BorÃ¥s', 'SWE', 96883),
-  (26, 'Sundsvall', 'SWE', 93126),
-  (27, 'GÃ¤vle', 'SWE', 90742);
+ /*insert into city   values (City_code,City_Name,Country_Code,City_Population)*/
+  insert into city   value  (1,  'Bangkok',  'THA',  60  ); 
+   insert into city   value (2, 'Nonthaburi', 'THA', 100);
+   insert into city   value (3, 'Nakhon Ratchasima', 'THA', 400);
+    insert into city   value(4, 'Chiang Mai', 'THA', 100);
+    insert into city   value(5, 'Udon Thani', 'THA', 158);
+    insert into city   value(6, 'Hat Yai', 'THA', 632);
+    insert into city   value(7, 'Khon Kaen', 'THA', 500);
+    insert into city   value(8, 'Pak Kret', 'THA', 126);
+    insert into city   value(9, 'Nakhon Sawan', 'THA', 800);
+    insert into city   value(10, 'Ubon Ratchathani', 'THA', 100);
+    insert into city   value(11, 'Songkhla', 'THA', 900);
+    insert into city   value(12, 'Nakhon Pathom', 'THA', 100);
+    insert into city   value(13, 'Stockholm', 'SWE', 748);
+    insert into city   value(14, 'Gothenburg', 'SWE', 90);
+    insert into city   value(15, 'Malmo', 'SWE', 79);
+    insert into city   value(16, 'Uppsala', 'SWE', 569);
+    insert into city   value(17, 'Linkoping', 'SWE', 68);
+    insert into city   value(18, 'Vasterland', 'SWE', 28);
+    insert into city   value(19, 'O–rebro', 'SWE', 124);
+    insert into city   value(20, 'Norrkoping', 'SWE', 99);
+    insert into city   value(21, 'Helsingborg', 'SWE',37);
+    insert into city   value(22, 'Jonkoping', 'SWE', 95);
+    insert into city   value(23, 'UmeAy', 'SWE', 12);
+    insert into city   value(24, 'Lund', 'SWE', 48);
+    insert into city   value(25, 'Borals', 'SWE',88);
+    insert into city   value(26, 'Sundsvall', 'SWE', 26);
+    insert into city   value(27, 'Gavle', 'SWE', 42);
+    
+select count(*) as TotalCountries from city;
