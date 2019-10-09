@@ -149,6 +149,7 @@ show tables;
   from country;
 
   /*insert into city   values (City_code,City_Name,Country_Code,City_Population)*/
+  <<<<<<< HEAD
   insert into city
   value
   (1,
@@ -261,4 +262,9 @@ show tables;
   select country.Country_Name, city.Country_Code, city.City_Name
   from country, city
   where country.Country_Code= city. Country_Code
-  order by Country_Code; 
+  order by Country_Code;
+  =======
+
+  select count(*) as TotalCities
+  from city;
+  >>>>>>> afdb31e119e45c2a4bdc014a99dcf6ea0f3e8b42
