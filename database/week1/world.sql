@@ -6,10 +6,8 @@ show tables;
 drop table if exists country;
 create table country
 (
-  Country_Code int(2) NOT NULL
-  AUTO_INCREMENT,
-  Country_Name varchar
-  (30) NOT NULL DEFAULT '',
+  Country_Code int(2) AUTO_INCREMENT unique,
+  Country_Name varchar (30) NOT NULL DEFAULT '',
   Country_Continent ENUM
   ('Asia','Europe','NorthAmerica','SouthAmerica') NOT NULL DEFAULT 'Europe',
   Country_SurfaceArea float
@@ -25,7 +23,7 @@ show tables;
   drop table if exists city;
   create table city
   (
-    City_Code int(2) NOT NULL
+    City_Code int(2) unique
     AUTO_INCREMENT,
   City_Name varchar
     (30) NOT NULL DEFAULT '', 
