@@ -10,10 +10,8 @@ create table country
   Country_Name varchar (30) NOT NULL DEFAULT '',
   Country_Continent ENUM
   ('Asia','Europe','NorthAmerica','SouthAmerica') NOT NULL DEFAULT 'Europe',
-  Country_SurfaceArea float
-  (10,2) NOT NULL DEFAULT '0.00',
-  Country_Population int
-  (11) NOT NULL default 0,
+  Country_SurfaceArea float NOT NULL DEFAULT '0.00',
+  Country_Population int NOT NULL default 0,
   primary key
   (Country_Code)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -29,8 +27,7 @@ show tables;
     (30) NOT NULL DEFAULT '', 
   Country_Code int
     (2) NOT NULL,
-  City_Population int
-    (11) NOT NULL DEFAULT 0,
+  City_Population int NOT NULL DEFAULT 0,
   primary key
     (City_Code),
   foreign key
@@ -250,7 +247,7 @@ show tables;
     select count(*) as TotalCities
     from city;
 
-    select country.Country_Name, city.Country_Code, city.City_Name
+    select country.Country_Name, city.Country_Code, city.City_Name, city_Code
     from country, city
     where country.Country_Code= city. Country_Code
     order by Country_Code;
