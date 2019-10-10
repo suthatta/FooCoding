@@ -10,7 +10,7 @@ create table country
   Country_Name varchar (30) NOT NULL DEFAULT '',
   Country_Continent ENUM
   ('Asia','Europe','NorthAmerica','SouthAmerica') NOT NULL DEFAULT 'Europe',
-  Country_SurfaceArea float NOT NULL DEFAULT '0.00',
+  Country_SurfaceArea int NOT NULL DEFAULT 0,
   Country_Population int NOT NULL default 0,
   primary key
   (Country_Code)
@@ -251,5 +251,6 @@ show tables;
     from country, city
     where country.Country_Code= city. Country_Code
     order by Country_Code;
-
+-- DESCRIBE country;
+-- DESCRIBE city;
  
