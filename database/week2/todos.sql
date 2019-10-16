@@ -98,11 +98,11 @@ primary key
       from list;
       -- select * from list;
 show tables;
-
+--drop table todolist;
       create table todolist
       (todoId int auto_increment unique,
-userId int not null,
-listId int not null,
+userId int,
+listId int,
 reminding datetime,
 isCompleted boolean not null default false,
 primary key (todoId)
@@ -113,6 +113,9 @@ primary key (todoId)
         );
         insert into todolist
         value(2,2,2,'2019-10-18',false
+        );
+         insert into todolist
+        value(3,1,2,'2019-10-20',false
         );
 
 
