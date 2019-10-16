@@ -55,6 +55,14 @@ execute city using
 @a;
 deallocate prepare city;
 
+-- 4 List all the continents with the number of languages spoken in each continent
+select continent, count(language) as languages from country c 
+inner join countrylanguage co on c.Code = co.CountryCode group by continent;
+
+prepare country from 
+'select continent, count(language) as languages from country c inner join countrylanguage co on c.Code = co.CountryCode group by continent';
+execute country;
+deallocate prepare country;
 
 -- 5 Are there any countries that have A) Same official language B) Same region If yes, 
 -- display those countries. If no, display TRUE or FALSE
@@ -66,11 +74,6 @@ select exists(select Name, Region, Language from country c inner join countrylan
 where IsOfficial = "T" group by Language order by Region);
 
 /* */
--- 4 List all the continents with the number of languages spoken in each continent
-select continent, count(Language) as languages
-from country c
-  inner join countrylanguage co on c.Code = co.CountryCode
-group by continent;
 
 
 
@@ -88,7 +91,7 @@ select Name, Region, count(Language) from countrylanguage co
 inner join country c on co.CountryCode =c.Code group by Name order by count(Language) Desc limit 18;
 
 -- Create an insert trigger
-create trigger insertLanguage on
+create trigger insertLanguage on 
 countrylanguage
 for insert
 as
