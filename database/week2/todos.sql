@@ -1,4 +1,4 @@
--- drop database todos;
+-- drop database if exits todos;
 create database
 if not exists todos;
 use todos;
@@ -97,19 +97,30 @@ primary key
       select count(1)
       from list;
       -- select * from list;
+show tables;
 
       create table todolist
-      (
-        todoId int
-        auto_increment unique,
+      (todoId int auto_increment unique,
 userId int not null,
 listId int not null,
-reminding datetime not null,
+reminding datetime,
 isCompleted boolean not null default false,
-primary key
-        (todoId),
+primary key (todoId)
 )engine =innoDB default charset=latin1;
 
         insert into todolist
         value(1,1,1,'2019-10-15',false
         );
+        insert into todolist
+        value(2,2,2,'2019-10-18',false
+        );
+
+
+select listName, isCompleted from todolist inner join list on list.listId = todolist.listId;
+
+ select userName,listName, isCompleted from todolist 
+ inner join list on list.listId = todolist.listId 
+ inner join user on user.userId = todolist.userId;
+
+
+update todolist set isCompleted =true where userId =1;
