@@ -58,14 +58,12 @@ deallocate prepare city;
 
 -- 5 Are there any countries that have A) Same official language B) Same region If yes, 
 -- display those countries. If no, display TRUE or FALSE
-select Name, Region , Language
-from country c inner join countrylanguag co on co.CountryCode  =c.Code
-order by desc;
 
-select Name, Region , Language
-from country c
-  inner join countrylanguage co on co.CountryCode =c.Code
-group by co.Language;
+select exists(select Name, Language, Region from country c 
+inner join countrylanguage co on co.CountryCode = c.Code where Name LIKE "%sweden%");
+
+select exists(select Name, Region, Language from country c inner join countrylanguage co on c.Code = co.CountryCode 
+where IsOfficial = "T" group by Language order by Region);
 
 /* */
 -- 4 List all the continents with the number of languages spoken in each continent
@@ -76,101 +74,40 @@ group by continent;
 
 
 
+/*art 2 : SQL research*/
 
-/*
-art 2 : SQL research
-
-I want to get alerts when a country has >= 10 languages. 
+/*I want to get alerts when a country has >= 10 languages. 
 E.g. If a country X has 9 languages in the CountryLanguage table, 
 and a user INSERTs one more row in the CountryLanguage table, 
-then I should get an alert. How can I achieve this ?
+then I should get an alert. How can I achieve this ? */
 
-    Write the necessary SQL statements for this solution and
-    Test your solution with example insert statements.
+    /*Write the necessary SQL statements for this solution and
+    Test your solution with example insert statements.*/
+    
+select Name, Region, count(Language) from countrylanguage co 
+inner join country c on co.CountryCode =c.Code group by Name order by count(Language) Desc limit 18;
 
-*/
+-- Create an insert trigger
+create trigger insertLanguage on
+countrylanguage
+for insert
+as
 
-/*  Structur Tables Country, City, Language*/
-CREATE TABLE `country`
-(
-  `Code` CHAR
-(3) NOT NULL DEFAULT '',
-  `Name` CHAR
-(52) NOT NULL DEFAULT '',
-  `Continent` enum
-('Asia','Europe','North America','Africa','Oceania','Antarctica','South America') NOT NULL DEFAULT 'Asia',
-  `Region` CHAR
-(26) NOT NULL DEFAULT '',
-  `SurfaceArea` FLOAT
-(10,2) NOT NULL DEFAULT '0.00',
-  `IndepYear` SMALLINT
-(6) DEFAULT NULL,
-  `Population` INT
-(11) NOT NULL DEFAULT '0',
-  `LifeExpectancy` FLOAT
-(3,1) DEFAULT NULL,
-  `GNP` FLOAT
-(10,2) DEFAULT NULL,
-  `GNPOld` FLOAT
-(10,2) DEFAULT NULL,
-  `LocalName` CHAR
-(45) NOT NULL DEFAULT '',
-  `GovernmentForm` CHAR
-(45) NOT NULL DEFAULT '',
-  `HeadOfState` CHAR
-(60) DEFAULT NULL,
-  `Capital` INT
-(11) DEFAULT NULL,
-  `Code2` CHAR
-(2) NOT NULL DEFAULT '',
-  PRIMARY KEY
-(`Code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO `
-country`
-VALUES
-  ('ABW', 'Aruba', 'North America', 'Caribbean', 193.00, NULL, 103000, 78.4, 828.00, 793.00, 'Aruba', 'Nonmetropolitan Territory of The Netherlands', 'Beatrix', 129, 'AW');
-
-
-CREATE TABLE `city`
-(
-  `ID` INT
-(11) NOT NULL AUTO_INCREMENT,
-  `Name` CHAR
-(35) NOT NULL DEFAULT '',
-  `CountryCode` CHAR
-(3) NOT NULL DEFAULT '',
-  `District` CHAR
-(20) NOT NULL DEFAULT '',
-  `Population` INT
-(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY
-(`ID`),
-  KEY `CountryCode`
-(`CountryCode`),
-  CONSTRAINT `city_ibfk_1` FOREIGN KEY
-(`CountryCode`) REFERENCES `country`
-(`Code`)
-) ENGINE=InnoDB AUTO_INCREMENT=4080 DEFAULT CHARSET=latin1;
-
-CREATE TABLE `countrylanguage`
-(
-  `CountryCode` CHAR
-(3) NOT NULL DEFAULT '',
-  `Language` CHAR
-(30) NOT NULL DEFAULT '',
-  `IsOfficial` enum
-('T','F') NOT NULL DEFAULT 'F',
-  `Percentage` FLOAT
-(4,1) NOT NULL DEFAULT '0.0',
-  PRIMARY KEY
-(`CountryCode`,`Language`),
-  KEY `CountryCode`
-(`CountryCode`),
-  CONSTRAINT `countryLanguage_ibfk_1` FOREIGN KEY
-(`CountryCode`) REFERENCES `country`
-(`Code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+          declare @CountryCode char(3);
+          declare @Language char(30);
+          declare @IsOfficial enum ('T','F') default 'F';
+          declare @Percentage float (4,1);
+          
+	      select @CountryCode = s.CountryCode from inserted s;
+          select @Language = s.Language from inserted s;
+          select @IsOfficial  = s.lastname from inserted s;
+          select @Percentage = s.Percentage from inserted s;
+          set @activity = 'a country X has 9 languages';
+			if insert into (Language)
+                      set @activity = 'a country X has 9 languages'
+	
+          insert into myDatabase_new_world.dbo.countrylanguade(CountryCode, Language, IsOfficial, Percentage, activity)
+                      values(@CountryCode @Language, @IsOfficial, @Percentage, @activity)
+ 
+go
 
