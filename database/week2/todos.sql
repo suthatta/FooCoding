@@ -1,11 +1,11 @@
--- drop database if exits todos;
+drop database if exists todos;
 create database
 if not exists todos;
 use todos;
 create table user
 (
   userId int
-  auto_increment unique,
+  auto_increment,
 userName varchar
   (20)not null default '',
 userFname varchar
@@ -32,7 +32,7 @@ primary key
   create table tags
   (
     tagsId int
-    auto_increment unique,
+    auto_increment,
  tagsName varchar
     (20) not null default'',
  primary key
@@ -67,7 +67,7 @@ primary key
     create table list
     (
       listId int
-      auto_increment unique,
+      auto_increment,
 listName varchar
       (20) not null default '',
 tagsId int not null,
@@ -100,7 +100,7 @@ primary key
 show tables;
 --drop table todolist;
       create table todolist
-      (todoId int auto_increment unique,
+      (todoId int auto_increment,
 userId int,
 listId int,
 reminding datetime,
