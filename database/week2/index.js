@@ -33,79 +33,49 @@ app.get('/createDB', (req, res) => {
     res.send('Database created...');
   });
 });
-
-// simple query
+// question 1
 db.query(
-  'SELECT * FROM `country` WHERE `Name` = "denmark"',
-  function (err, results) {
-    console.log('\n Result from country Denmark: ', results); // results contains rows returned by server
-    //console.log(fields); // fields contains extra meta data about results, if available
-  }
-);
-//Select all country and name order by Continent Limit 20country;
-app.get('/getpost/', (req, res) => {
-  let sql = `SELECT Code, Name, Continent FROM country ORDER BY Continent Limit 20;`;
-  let query = db.query(sql, (err, result) => {
-    if (err) throw err;
-    console.log(result);
-    res.send('Post fetched...');
-  });
-});
-//question 1 What is the capital of country X ? (Accept X from user)
-
-app.get('/getpost/:name', (req, res) => {
-  let sql = `SELECT * FROM country WHERE Name ="${req.params.name}"`;
-  let query = db.query(sql, (err, result) => {
-    if (err) throw err;
-    console.log(result);
-    res.send('Post fetched')
-  })
-})
-
-app.get('/getpostname/:name', (req, res) => {
-  let sql = `SELECT Capital FROM country WHERE LOWER(Name) LIKE "${req.params.name}"`;
-  let query = db.query(sql, (err, result) => {
-    if (err) throw err;
-    console.log(result);
-    res.send('Post fetched')
-  })
-})
-
-
-
-db.query(
-  'SELECT `Capital` FROM `country` WHERE LOWER(`Name`) LIKE ?',
+  'SELECT DISTINCT `Capital` FROM `country` WHERE LOWER(`Name`) LIKE ?',
   ['netherlands'],
   function (err, result) {
     console.log('\n Netherlands capital : ', result);
   }
 );
 
+//2 List all the languages spoken in the region Y (Accept Y from user)
+/*select count(Region), Region from country group by Region;
+ select Language, Region from countrylanguage c inner join country co on co.Code =c.CountryCode where lower(Region) LIKE "North %";*/
 
-// Select single post
-app.get('/getpostcode/:code', (req, res) => {
-  console.log('get code=', code);
-  let sql = `SELECT Code, Name, Capital FROM country WHERE LOWER(Code) LIKE "${req.params.code}"`;
-  let query = db.query(sql, (err, result) => {
-    if (err) throw err;
-    console.log(result);
-    res.send('Post fetched...');
-  });
-});
-//
-
-
-// with placeholder
 db.query(
-  'SELECT Name, Region, Continent FROM `country` WHERE `Name` = ?',
-  ['Sweden'],
-  function (err, results) {
-    console.log('\n Select * From Sweden: ', results);
+  'select Language, Region from countrylanguage c inner join country co on co.Code =c.CountryCode where lower(Region) LIKE ?',
+  ['north%'],
+  function (err, result) {
+    console.log('\n QUESTION 2: Language from Region : ', result);
   }
 );
 
+//3 Find the number of cities in which language Z is spoken (Accept Z from user)
 
-//listening port
-app.listen('3000', () => {
-  console.log('Server started on port 3000:');
-})
+db.query(
+  'select count(1) from city ci inner join countrylanguage c on c.CountryCode = ci.CountryCode where lower(Language) LIKE ?',
+  ['swedish'],
+  function (err, result) {
+    console.log('\n QUESTION 3: the number of cities Spoke : ', result);
+  }
+);
+//4 List all the continents with the number of languages spoken in each continent
+db.query(
+  'select continent, count(language) as languages from country c inner join countrylanguage co on c.Code = co.CountryCode group by continent',
+  function (err, result) {
+    console.log('\n QUESTION 4: List all continents : ', result);
+  }
+);
+// 5 Are there any countries that have A) Same official language B) Same region If yes, 
+//display those countries.If no, display TRUE or FALSE
+db.query(
+  'select Name, Region, Language from country c inner join countrylanguage co ',
+  'on c.Code = co.CountryCode where IsOfficial = "T" order by Region, Language',
+  function (err, result) {
+    console.log('\n QUESTION 5: Country in The same Region and Same Language \n: ', result);
+  }
+);
