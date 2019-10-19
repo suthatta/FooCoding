@@ -1,37 +1,32 @@
-/*select Name, Region, count(Language) from countrylanguage co
-inner join country c on co.CountryCode =c.Code group by Name order by count(Language) Desc limit 18;*/
-/* select Language, count(Language), Region from countrylanguage cl inner join country c on 
-cl.CountryCode =c.Code where cl.IsOfficial ="T" group by cl.Language , 
-Region having count(Language) >2;*/
-
 -- Create an insert trigger
+use new_world;
+delimiter |
+CREATE TRIGGER insertLanguage 
+BEFORE INSERT ON countrylanguage 
+FOR EACH ROW
+BEGIN
+	DECLARE messages_text char(30);
+    DECLARE total_languages int;
+    SET total_languages = (SELECT Count(Language) FROM countrylanguage WHERE CountryCode = NEW.CountryCode);
+	IF ( total_languages > 9) then
+        signal sqlstate '45000' 
+        SET message_text = 'You cannot insert > 9!';
+    END IF;   
+END;
+|
+delimiter ;
 
-create trigger insertLanguage on 
-countrylanguage
-for insert
-as
 
-          declare @CountryCode char(3)
-          declare @Language char(30)
-          declare @IsOfficial enum ('T','F') default 'F'
-          declare @Percentage float (4,1)
-          
-          select @CountryCode = s.CountryCode from inserted s
-          select @Language = s.Language from inserted s
-          select @IsOfficial  = s.lastname from inserted s
-          select @Percentage = s.Percentage from inserted s
-         
-		  set total('select Name, count(Language) from country c inner join countrylanguage cl on c.Code = cl.CountryCode')
-          if total >9 
-          then  
-          set @activity = 'a country X has 9 languages'
-	      
-			
-            if insert into (Language)
-                      set @activity = 'a country X has 9 languages'
-	
-          insert into myDatabase_new_world.dbo.countrylanguade(CountryCode, Language, IsOfficial, Percentage, activity)
-                      values(@CountryCode @Language, @IsOfficial, @Percentage, @activity)
- 
-go
+-- DROP TRIGGER IF EXISTS insertLanguage;
+-- DROP TRIGGER ALL ON countrylanguage;
+/*TEST DATA*/
+/*-- select Name, CountryCode, count(Language) from countrylanguage cl */
+-- inner join country c on cl.CountryCode = c.Code 
+-- group by CountryCode order by count(Language) desc limit 30;
+/* Austria                               | AUT         |               9*/
+-- INSERT INTO countrylanguage VALUE('VNM','Test12','F','0');
+-- INSERT INTO countrylanguage (CountryCode, Language, IsOfficial, Percentage) VALUES ('TCD','TESTTEST','F','0');
 
+
+-- select count(*) from countrylanguage where CountryCode ="TCD";
+-- DELETE FROM countrylanguage WHERE CountryCode='AUT' and Percentage =0;
